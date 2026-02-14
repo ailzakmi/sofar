@@ -1,0 +1,201 @@
+{
+    "info": {
+        "system_info": {
+            "system": {
+                "comp_name": "32GIGA",
+                "os_name": "Windows 11",
+                "version": "10.0.26100",
+                "machine": "AMD64"
+            },
+            "processor": {
+                "name": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+                "phisycal_core": 6,
+                "all_core": 12,
+                "freq_max": "3501.00Мгц"
+            },
+            "ram": {
+                "volume": "31.93GiB",
+                "aviable": "17.82GiB",
+                "used": "14.10GiB"
+            }
+        },
+        "disk_info": {
+            "C:\\": {
+                "file_system": "NTFS",
+                "size_total": "953.03GiB",
+                "size_used": "418.19GiB",
+                "size_free": "534.84GiB",
+                "percent": "43.9"
+            },
+            "D:\\": {
+                "file_system": "NTFS",
+                "size_total": "931.51GiB",
+                "size_used": "381.58GiB",
+                "size_free": "549.93GiB",
+                "percent": "41.0"
+            },
+            "E:\\": {
+                "file_system": "NTFS",
+                "size_total": "698.63GiB",
+                "size_used": "506.94GiB",
+                "size_free": "191.70GiB",
+                "percent": "72.6"
+            },
+            "F:\\": {
+                "file_system": "NTFS",
+                "size_total": "223.06GiB",
+                "size_used": "106.37GiB",
+                "size_free": "116.69GiB",
+                "percent": "47.7"
+            },
+            "G:\\": {
+                "file_system": "NTFS",
+                "size_total": "931.50GiB",
+                "size_used": "364.93GiB",
+                "size_free": "566.56GiB",
+                "percent": "39.2"
+            }
+        },
+        "net_info": {
+            "Ethernet 2": {
+                "mac": "0A:00:27:00:00:0A",
+                "ipv4": "192.168.56.1",
+                "ipv6": "fe80::5008:5c1a:5b41:dc11"
+            },
+            "Ethernet": {
+                "mac": "10:FF:E0:00:C0:BA",
+                "ipv4": "192.168.1.230",
+                "ipv6": "fe80::6fc2:fb32:1bf:e7e0"
+            },
+            "vEthernet (Default Switch)": {
+                "mac": "00:15:5D:8E:F1:CA",
+                "ipv4": "172.31.16.1",
+                "ipv6": "fe80::aed5:b85:4ec8:f183"
+            }
+        },
+        "other_info": {
+            "motherboard_manufacturer": "Gigabyte Technology Co., Ltd.",
+            "motherboard_product": "B550M AORUS ELITE",
+            "version_bios": "ALASKA - 1072009",
+            "manufacturer_bios": "American Megatrends International, LLC.",
+            "serial_number_bios": "Default string",
+            "date_version_bios": "FC",
+            "smbios_version": "FC",
+            "os_boot_directory": "C:\\WINDOWS",
+            "last_drive": "G:",
+            "processor_name": "AMD Ryzen 5 5600 6-Core Processor",
+            "processor_id": "178BFBFF00A20F12",
+            "uuid_system": "03FF0210-04E0-0500-C006-BA0700080009",
+            "pnp_device_id": "DISPLAY\\AOC2260\\5&B0839CA&0&UID20740",
+            "drive_name_serial": {
+                "TOSHIBA HDWD110\t": "Y6S53LYNS",
+                "KINGSTON SA400S37240G\t": "50026B7784392C7B",
+                "XPG GAMMIX S11 Pro\t": "0000_0000_0000_0000_0000_0000_0024_82C4.",
+                "WDC WD10EZEX-08WN4A0\t": "WD-WM4A379403DU",
+                "TOSHIBA MK7559GSXP\t": "Z1D7P0FFT"
+            },
+            "drive_firmware": {
+                "drive_0": "MS2OA8J0",
+                "drive_1": "SBFKJ3A3",
+                "drive_2": "42BFU6MI",
+                "drive_3": "05.00H.4",
+                "drive_4": "GN003J"
+            },
+            "disk_signature": {
+                "sig_0": "103163664",
+                "sig_1": "3809487435"
+            },
+            "volum_name": {
+                "volum_0": "Drive",
+                "volum_1": "Локальный диск",
+                "volum_2": "HDD",
+                "volum_3": "SSD",
+                "volum_4": "Хранилище"
+            },
+            "volume_serial_number": {
+                "volume_serial_0": "742F71EF",
+                "volume_serial_1": "7A4A32B2",
+                "volume_serial_2": "115DA96D",
+                "volume_serial_3": "C8A8A7D8",
+                "volume_serial_4": "C04D79EC"
+            },
+            "memory_form_factor": {
+                "memory_0": "8",
+                "memory_1": "8",
+                "memory_2": "8",
+                "memory_3": "8"
+            },
+            "memory_bank_label": {
+                "bank_label_0": "P0 CHANNEL A",
+                "bank_label_1": "P0 CHANNEL A",
+                "bank_label_2": "P0 CHANNEL B",
+                "bank_label_3": "P0 CHANNEL B"
+            },
+            "memory_device_locator": {
+                "device_locator_0": "DIMM 0",
+                "device_locator_1": "DIMM 1",
+                "device_locator_2": "DIMM 0",
+                "device_locator_3": "DIMM 1"
+            },
+            "memory_type": {
+                "bank_0": "DDR4",
+                "bank_1": "DDR4",
+                "bank_2": "DDR4",
+                "bank_3": "DDR4"
+            },
+            "memory_manufacturer": {
+                "manufacturer_0": "Unknown",
+                "manufacturer_1": "Unknown",
+                "manufacturer_2": "Unknown",
+                "manufacturer_3": "Unknown"
+            },
+            "memory_part_number": {
+                "part_number_0": "F4-3200C16-8GIS",
+                "part_number_1": "F4-3200C16-8GIS",
+                "part_number_2": "F4-3200C16-8GIS",
+                "part_number_3": "F4-3200C16-8GIS"
+            },
+            "memory_serial_number": {
+                "serial_number_0": "00000000",
+                "serial_number_1": "00000000",
+                "serial_number_2": "00000000",
+                "serial_number_3": "00000000"
+            },
+            "memory_frequency": {
+                "frequency_0": "3200",
+                "frequency_1": "3200",
+                "frequency_2": "3200",
+                "frequency_3": "3200"
+            },
+            "count_memory": "4",
+            "net_adapter_caption": {
+                "net_adapter_0": "[00000000] Realtek PCIe GbE Family Controller",
+                "net_adapter_1": "[00000001] Microsoft Kernel Debug Network Adapter",
+                "net_adapter_2": "[00000002] WAN Miniport (SSTP)",
+                "net_adapter_3": "[00000003] WAN Miniport (IKEv2)",
+                "net_adapter_4": "[00000004] WAN Miniport (L2TP)",
+                "net_adapter_5": "[00000005] WAN Miniport (PPTP)",
+                "net_adapter_6": "[00000006] WAN Miniport (PPPOE)",
+                "net_adapter_7": "[00000007] WAN Miniport (IP)",
+                "net_adapter_8": "[00000008] WAN Miniport (IPv6)",
+                "net_adapter_9": "[00000009] WAN Miniport (Network Monitor)",
+                "net_adapter_10": "[00000010] VirtualBox Host-Only Ethernet Adapter",
+                "net_adapter_11": "[00000011] Hyper-V Virtual Switch Extension Adapter"
+            },
+            "guid_net_adapter": {
+                "guid_0": "{3280EB89-DEB1-4BD3-90DE-CA04061E2F59}",
+                "guid_1": "{6C4C5992-0E64-4C24-83CF-0EFD7CA827D0}"
+            },
+            "os_install_date_time": "12 сентября 2025 г. 21:29:54",
+            "os_serial_number": "00484-20000-00000-AAOEM",
+            "client_machine_id_lic": "d821bfc8-9f8e-4913-a393-bef1d4c16698",
+            "key_activate_win": "",
+            "printer_caption": {
+                "printer_0": "PDF24",
+                "printer_1": "OneNote (Desktop)",
+                "printer_2": "Microsoft Print to PDF"
+            },
+            "time_zone": "(UTC+05:00) Екатеринбург"
+        }
+    }
+}
