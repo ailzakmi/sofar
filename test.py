@@ -6,6 +6,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from platform import uname
 
+clicks = 0
 
 def correct_size(bts, ending='iB'):
     size = 1024
@@ -120,9 +121,27 @@ def main():
 def main():
     window = Tk()
     window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
-    window.geometry('600x400')
-    btn = ttk.Button(text="Click")
-    btn.pack()
+    window.geometry('715x400')
+    
+    position = {"padx":6, "pady":6, "anchor":NW}
+ 
+    python = "Python"
+    java = "Java"
+    javascript = "JavaScript"
+    
+    lang = StringVar(value=java)    # по умолчанию будет выбран элемент с value=java
+    
+    header = ttk.Label(textvariable=lang)
+    header.pack(**position)
+    
+    python_btn = ttk.Radiobutton(text=python, value=python, variable=lang)
+    python_btn.pack(**position)
+    
+    javascript_btn = ttk.Radiobutton(text=javascript, value=javascript, variable=lang)
+    javascript_btn.pack(**position)
+    
+    java_btn = ttk.Radiobutton(text=java, value=java, variable=lang)
+    java_btn.pack(**position)
 
     window.mainloop()
 
