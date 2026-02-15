@@ -7,7 +7,7 @@ from tkinter import ttk
 from platform import uname
 
 clicks = 0
-
+'''''
 def correct_size(bts, ending='iB'):
     size = 1024
     for item in ["", "K", "M", "G", "T", "P"]:
@@ -104,7 +104,6 @@ def print_info(dict_info):
                       f"\t- IPv4: {dict_info['info'][item][elem]['ipv4']}\n"
                       f"\t- IPv6: {dict_info['info'][item][elem]['ipv6']}\n")
 
-'''''
 def main():
     if uname().system == "Windows":
         dict_info = creating_file()
