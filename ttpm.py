@@ -1,4 +1,4 @@
-import json
+# import json
 import psutil
 import tkinter as tk
 from tkinter import *
@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from platform import uname
 
-# global dofamin
+dan = []
 
 def correct_size(bts, ending='iB'):
     size = 1024
@@ -14,7 +14,7 @@ def correct_size(bts, ending='iB'):
         if bts < size:
             return f"{bts:.2f}{item}{ending}"
         bts /= size
-'''''
+
 def creating_file():
     collect_info_dict = dict()
     if 'info' not in collect_info_dict:
@@ -65,7 +65,7 @@ def creating_file():
                     'ipv6': interface_address[2].address}
 
     return collect_info_dict
-
+'''''
 def print_info(dict_info):
     for item in dict_info['info']:
         if item == "system_info":
@@ -117,22 +117,45 @@ def main():
         print_info(dict_info)
 '''''
 
-def main():
-    window = Tk()
-    window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
-    window.geometry('715x400')
-    window.rowconfigure(index=1, weight=1)
-    window.columnconfigure(index=0, weight=1)
+def info_column():
+    return (uname().node, f"{uname().system} {uname().release}", uname().version, uname().machine, uname().processor, psutil.cpu_count(logical=False),
+         psutil.cpu_count(logical=True), f"{psutil.cpu_freq().max:.2f}Мгц", correct_size(psutil.virtual_memory().total), 
+         correct_size(psutil.virtual_memory().available), correct_size(psutil.virtual_memory().used))
 
-    # определяем данные для отображения
-    people = [("Tom", 38, "tom@email.com"), ("Bob", 42, "bob@email.com"), ("Sam", 28, "sam@email.com")]
-    
-    # определяем столбцы
-    columns = ("name", "age", "email")
-    
-    tree = ttk.Treeview(columns=columns, show="headings")
-    tree.pack(expand=1, fill=BOTH)
-    
+def info_no_local():
+    return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+
+class Window(Tk):
+    def __init__(self):
+        super().__init__()
+        # конфигурация окна
+        self.title("Новое окно")
+        self.geometry("250x200")
+        # определение кнопки
+        self.button = ttk.Button(self, text="закрыть")
+        self.button["command"] = self.button_clicked
+        self.button.pack(anchor="center")
+        self.button2 = ttk.Button(self, text="Печать")
+        self.button2["command"] = self.pet
+        self.button2.pack(anchor="center")
+    def button_clicked(self):
+        self.destroy()
+    def pet(self):
+        global dan
+        for v, _ in dan:
+            print(v)
+
+def main():
+    def zapol():
+        ochistka()
+        # person = ()
+        if dofamin.get() == 1:
+            person = info_column()
+            tree.insert("", END, values=person)
+            # person.clear()
+        person = info_no_local()
+        tree.insert("", END, values=person)
+        # person.clear()
     def sort(col, reverse):
         # получаем все значения столбцов в виде отдельного списка
         l = [(tree.set(k, col), k) for k in tree.get_children("")]
@@ -143,20 +166,62 @@ def main():
             tree.move(k, "", index)
         # в следующий раз выполняем сортировку в обратном порядке
         tree.heading(col, command=lambda: sort(col, not reverse))
-    
-    # определяем заголовки
-    tree.heading("name", text="Имя", anchor=W, command=lambda: sort(0, False))
-    tree.heading("age", text="Возраст", anchor=W, command=lambda: sort(1, False))
-    tree.heading("email", text="Email", anchor=W, command=lambda: sort(2, False))
-    
-    tree.column("#1", stretch=NO, width=70)
-    tree.column("#2", stretch=NO, width=60)
-    tree.column("#3", stretch=NO, width=100)
-    
-    # добавляем данные
-    for person in people:
-        tree.insert("", END, values=person)
+    def ochistka():
+        l = [(tree.set(k, 0), k) for k in tree.get_children("")]
+        for _,  (_, k) in enumerate(l):
+            tree.delete(k)
+    def sohranenie():
+        global dan 
+        dan = [(tree.set(k, 0), k) for k in tree.get_children("")]
+        window = Window()
+        
 
+    window = Tk()
+    window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
+    window.geometry('715x400')
+    window.rowconfigure(index=1, weight=1)
+    window.columnconfigure(index=0, weight=1)
+    dofamin = IntVar()
+    # position = {"padx":6, "pady":6, "anchor":NW}
+    frame = ttk.Frame(borderwidth=1, relief=SOLID)
+    button_1 = ttk.Button(frame, text="Получить сведения", command=zapol).grid(row=0, column=0)
+    button_2 = ttk.Button(frame, text="Составить отчет", command=sohranenie).grid(row=0, column=1)
+    local_button = ttk.Checkbutton(frame, text="Показывать локальный компьютер", variable=dofamin).grid(row=1, column=0)
+    frame.grid(row=0, column=0, sticky=EW)   
+    # определяем данные для отображения
+    people = [
+        ("Tom", 38, "tom@email.com"), ("Bob", 42, "bob@email.com"), ("Sam", 28, "sam@email.com"),
+        ("Alice", 33, "alice@email.com"), ("Kate", 21, "kate@email.com"), ("Ann", 24, "ann@email.com"),
+        ("Mike", 34, "mike@email.com"), ("Alex", 52, "alex@email.com"), ("Jess", 28, "jess@email.com"),
+        ]
+    # определяем столбцы
+    columns = ("comp_name", "os_name", "version", "machine", "processor_name", "processor_phisycal_core", "processor_all_core", 
+               "processor_freq_max","raw_volume", "raw_aviable", "raw_used")
+
+    frame_m = ttk.Frame(borderwidth=1, relief=SOLID)
+    frame_m.rowconfigure(index=0, weight=1)
+    frame_m.columnconfigure(index=0, weight=1)
+
+    tree = ttk.Treeview(frame_m,columns=columns, show="headings")
+    tree.grid(row=0, column=0, sticky="nsew")
+    # определяем заголовки
+    for head in columns:
+        tree.heading(head, text=f"{head}", anchor=W, command=lambda: sort(0, False))
+    # tree.heading("age", text="Возраст", anchor=W)
+    # добавляем данные
+    for head, v in enumerate(columns, start=1):
+        tree.column(f"#{head}", stretch=NO, width=len(v)*10)
+    
+    # добавляем горизонтальную прокрутку
+    scrollbar = ttk.Scrollbar(frame_m,orient=HORIZONTAL, command=tree.xview)
+    tree.configure(xscroll=scrollbar.set)
+    scrollbar.grid(row=1, column=0, sticky="ew")
+    # добавляем вертикальную прокрутку
+    scrollbar = ttk.Scrollbar(frame_m,orient=VERTICAL, command=tree.yview)
+    tree.configure(yscroll=scrollbar.set)
+    scrollbar.grid(row=0, column=1, sticky="ns")
+
+    frame_m.grid(row=1, column=0, sticky="nsew")
     window.mainloop()
 
 if __name__ == "__main__":
