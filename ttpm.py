@@ -131,19 +131,27 @@ class Window(Tk):
         # конфигурация окна
         self.title("Новое окно")
         self.geometry("250x200")
+        listbox = ("txt", "Exel", "CVS", "JSON")
+        listbox_var = StringVar()
+        # print(listbox_var.get())
+        self.frame_c= ttk.Frame(self)
+        self.combobox = ttk.Combobox(self.frame_c, textvariable=listbox_var, values=listbox, state="readonly")
+        self.combobox.current(0)
+        self.combobox.pack(anchor="center")
+        self.label = ttk.Label(self.frame_c, textvariable=listbox_var).pack(anchor="center")
         # определение кнопки
-        self.button = ttk.Button(self, text="закрыть")
-        self.button["command"] = self.button_clicked
-        self.button.pack(anchor="center")
-        self.button2 = ttk.Button(self, text="Печать")
-        self.button2["command"] = self.pet
-        self.button2.pack(anchor="center")
+        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(listbox, self.combobox.get())).pack(anchor="center")
+        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).pack(anchor="center")
+        self.frame_c.pack(anchor="center", expand=True)
+        
     def button_clicked(self):
         self.destroy()
-    def pet(self):
+    def pet(self, listbox, listbox_v):
         global dan
-        for v, _ in dan:
+        for v in dan:
             print(v)
+        # print(listbox)
+        print(listbox_v)
 
 def main():
     def zapol():
@@ -167,12 +175,15 @@ def main():
         # в следующий раз выполняем сортировку в обратном порядке
         tree.heading(col, command=lambda: sort(col, not reverse))
     def ochistka():
-        l = [(tree.set(k, 0), k) for k in tree.get_children("")]
-        for _,  (_, k) in enumerate(l):
+        for k in tree.get_children(""):
             tree.delete(k)
     def sohranenie():
-        global dan 
-        dan = [(tree.set(k, 0), k) for k in tree.get_children("")]
+        global dan
+        
+        # dan = [(tree.set(k, 0), k) for k in tree.get_children("")]
+        IOXX = tree.get_children("")
+
+        print(dan)
         window = Window()
         
 
