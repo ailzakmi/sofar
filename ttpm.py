@@ -148,10 +148,23 @@ class Window(Tk):
         self.destroy()
     def pet(self, listbox, listbox_v):
         global dan
-        for v in dan:
-            print(v)
+        if (dan[0] == []):
+            print("Пусто")
+        else:
+            for v in dan:
+                print(v)
         # print(listbox)
-        print(listbox_v)
+        match listbox_v.split():
+            case ["txt"]:
+                print(listbox_v)
+            case ["Exel"]:
+                print(listbox_v)
+            case ["CVS"]:
+                print(listbox_v)
+            case ["JSON"]:
+                print(listbox_v)
+            case _:
+                print(f"#{listbox_v}")
 
 def main():
     def zapol():
