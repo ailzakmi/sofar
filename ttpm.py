@@ -179,9 +179,13 @@ def main():
             tree.delete(k)
     def sohranenie():
         global dan
-        
-        # dan = [(tree.set(k, 0), k) for k in tree.get_children("")]
-        IOXX = tree.get_children("")
+        var = []
+        # colum = tree['columns']
+        # num_colums = len(colum)
+        for i,_ in enumerate(tree['columns']):
+            var = [(tree.set(k, i), k) for k in tree.get_children("")]
+            dan.append(var)
+        # IOXX = tree.get_children("")
 
         print(dan)
         window = Window()
