@@ -2,8 +2,9 @@
 import psutil
 import tkinter as tk
 from tkinter import *
-from tkinter import messagebox
 from tkinter import ttk
+from tkinter import messagebox
+from tkinter.messagebox import *
 from platform import uname
 
 dan = []
@@ -122,8 +123,11 @@ def info_column():
          psutil.cpu_count(logical=True), f"{psutil.cpu_freq().max:.2f}Мгц", correct_size(psutil.virtual_memory().total), 
          correct_size(psutil.virtual_memory().available), correct_size(psutil.virtual_memory().used))
 
-def info_no_local():
-    return (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+def info_no_local(col):
+    temp = []
+    for i in range(1,col+1):
+        temp.append((i,i,i))
+    return temp
 
 class Window(Tk):
     def __init__(self):
@@ -146,17 +150,30 @@ class Window(Tk):
         
     def button_clicked(self):
         self.destroy()
+    def inf(self):
+        showinfo(title="Информация", message="Файл успешно сохранен!", icon="info", default="ok")
     def pet(self, listbox, listbox_v):
         global dan
         if (dan[0] == []):
             print("Пусто")
-        else:
-            for v in dan:
-                print(v)
-        # print(listbox)
         match listbox_v.split():
             case ["txt"]:
                 print(listbox_v)
+                c = 0
+                ver = dan[0]
+                c = len(ver[1])
+                with open("otch.txt", "w") as file:
+                    file.write("Number")
+                    for v, *_ in dan:
+                        file.write(("\t" + v))
+                    file.write("\n")
+                    for k in range(c):
+                        file.write(str(k+1))
+                        for number in dan:
+                            number = number[1]
+                            file.write("\t" + str(number[k]))
+                        file.write("\n")
+                self.inf()
             case ["Exel"]:
                 print(listbox_v)
             case ["CVS"]:
@@ -173,10 +190,14 @@ def main():
         if dofamin.get() == 1:
             person = info_column()
             tree.insert("", END, values=person)
-            # person.clear()
-        person = info_no_local()
-        tree.insert("", END, values=person)
-        # person.clear()
+        person = info_no_local(len(tree['columns']))
+        c = 0
+        c = len(person[0])
+        for k in range(c):
+            ver = []
+            for number in person:
+                ver.append(number[k])
+            tree.insert("", END, values=ver)
     def sort(col, reverse):
         # получаем все значения столбцов в виде отдельного списка
         l = [(tree.set(k, col), k) for k in tree.get_children("")]
@@ -195,8 +216,11 @@ def main():
         var = []
         # colum = tree['columns']
         # num_colums = len(colum)
-        for i,_ in enumerate(tree['columns']):
-            var = [(tree.set(k, i), k) for k in tree.get_children("")]
+        # dan.append([tree['columns']])
+        for i,v in enumerate(tree['columns']):
+            var = v, [(tree.set(k, i)) for k in tree.get_children("")]
+            # var = v, [(k, tree.set(k, i)) for k in tree.get_children("")]
+            # dan.append(v)
             dan.append(var)
         # IOXX = tree.get_children("")
 
