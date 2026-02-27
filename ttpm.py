@@ -162,7 +162,7 @@ class Window(Tk):
                 c = 0
                 ver = dan[0]
                 c = len(ver[1])
-                with open("otch.txt", "w") as file:
+                with open("otch.txt", "w", encoding="utf8") as file:
                     file.write("Number")
                     for v, *_ in dan:
                         file.write(("\t" + v))
