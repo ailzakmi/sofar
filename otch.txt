@@ -1,1 +1,1 @@
-Number	comp_name	os_name	version	machine	processor_name	processor_phisycal_core	processor_all_core	processor_freq_max	raw_volume	raw_aviable	raw_used
+comp_name	os_name	version	machine	processor_name	processor_phisycal_core	processor_all_core	processor_freq_max	raw_volume	raw_aviable	raw_used	

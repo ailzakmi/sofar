@@ -159,19 +159,24 @@ class Window(Tk):
         match listbox_v.split():
             case ["txt"]:
                 print(listbox_v)
-                c = 0
-                ver = dan[0]
-                c = len(ver[1])
+                # c = 0
+                # ver = dan[0]
+                # c = len(ver[1])
+                # with open("otch.txt", "w", encoding="utf8") as file:
+                #     file.write("Number")
+                #     for v, *_ in dan:
+                #         file.write(("\t" + v))
+                #     file.write("\n")
+                #     for k in range(c):
+                #         file.write(str(k+1))
+                #         for number in dan:
+                #             number = number[1]
+                #             file.write("\t" + str(number[k]))
+                #         file.write("\n")
                 with open("otch.txt", "w", encoding="utf8") as file:
-                    file.write("Number")
-                    for v, *_ in dan:
-                        file.write(("\t" + v))
-                    file.write("\n")
-                    for k in range(c):
-                        file.write(str(k+1))
-                        for number in dan:
-                            number = number[1]
-                            file.write("\t" + str(number[k]))
+                    for v in dan:
+                        for number in v:
+                            file.write(str(number) + "\t")
                         file.write("\n")
                 self.inf()
             case ["Exel"]:
@@ -217,16 +222,35 @@ def main():
         # colum = tree['columns']
         # num_colums = len(colum)
         # dan.append([tree['columns']])
-        for i,v in enumerate(tree['columns']):
-            var = v, [(tree.set(k, i)) for k in tree.get_children("")]
-            # var = v, [(k, tree.set(k, i)) for k in tree.get_children("")]
-            # dan.append(v)
-            dan.append(var)
+        # for i,v in enumerate(tree['columns']):
+        #     var = v, [(tree.set(k, i)) for k in tree.get_children("")]
+        #     # var = v, [(k, tree.set(k, i)) for k in tree.get_children("")]
+        #     # dan.append(v)
+        #     dan.append(var)
         # IOXX = tree.get_children("")
-
+        
+        dan.append(list(tree['columns']))
+        for row in tree.get_children(""):
+            var = [(tree.set(row, k)) for k in range(len(tree['columns']))]
+            dan.append(var)
+        # dan = (list(tree['columns']), [[(tree.set(row, k)) for k in range(len(tree['columns']))] for row in tree.get_children("")])
         print(dan)
         window = Window()
-        
+
+# c = 0
+# ver = dan[0]
+# c = len(ver[1])
+# with open("otch.txt", "w", encoding="utf8") as file:
+#     file.write("Number")
+#     for v, *_ in dan:
+#         file.write(("\t" + v))
+#     file.write("\n")
+#     for k in range(c):
+#         file.write(str(k+1))
+#         for number in dan:
+#             number = number[1]
+#             file.write("\t" + str(number[k]))
+#         file.write("\n")
 
     window = Tk()
     window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
