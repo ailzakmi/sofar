@@ -1,4 +1,4 @@
-# import json
+import socket
 import psutil
 import tkinter as tk
 from tkinter import *
@@ -16,124 +16,49 @@ def correct_size(bts, ending='iB'):
             return f"{bts:.2f}{item}{ending}"
         bts /= size
 
-def creating_file():
-    collect_info_dict = dict()
-    if 'info' not in collect_info_dict:
-        collect_info_dict['info'] = dict()
-        collect_info_dict['info']['system_info'] = dict()
-        collect_info_dict['info']['system_info'] = {'system': {'comp_name': uname().node,
-                                                               'os_name': f"{uname().system} {uname().release}",
-                                                               'version': uname().version,
-                                                               'machine': uname().machine},
-                                                    'processor': {'name': uname().processor,
-                                                                  'phisycal_core': psutil.cpu_count(logical=False),
-                                                                  'all_core': psutil.cpu_count(logical=True),
-                                                                  'freq_max': f"{psutil.cpu_freq().max:.2f}Мгц"},
-                                                    'ram': {'volume': correct_size(psutil.virtual_memory().total),
-                                                            'aviable': correct_size(psutil.virtual_memory().available),
-                                                            'used': correct_size(psutil.virtual_memory().used)}}
-
-    for partition in psutil.disk_partitions():
-        try:
-            partition_usage = psutil.disk_usage(partition.mountpoint)
-        except PermissionError:
-            continue
-        if 'disk_info' not in collect_info_dict['info']:
-            collect_info_dict['info']['disk_info'] = dict()
-        if f"'device': {partition.device}" not in collect_info_dict['info']['disk_info']:
-            collect_info_dict['info']['disk_info'][partition.device] = dict()
-            collect_info_dict['info']['disk_info'][partition.device] = {'file_system': partition.fstype,
-                                                                        'size_total': correct_size(
-                                                                            partition_usage.total),
-                                                                        'size_used': correct_size(
-                                                                            partition_usage.used),
-                                                                        'size_free': correct_size(
-                                                                            partition_usage.free),
-                                                                        'percent':
-                                                                            f'{partition_usage.percent}'}
-
-    for interface_name, interface_address in psutil.net_if_addrs().items():
-        if interface_name == 'Loopback Pseudo-Interface 1':
-            continue
-        else:
-            if 'net_info' not in collect_info_dict['info']:
-                collect_info_dict['info']['net_info'] = dict()
-            if interface_name not in collect_info_dict['info']['net_info']:
-                collect_info_dict['info']['net_info'][interface_name] = dict()
-                collect_info_dict['info']['net_info'][interface_name] = {
-                    'mac': interface_address[0].address.replace("-", ":"),
-                    'ipv4': interface_address[1].address,
-                    'ipv6': interface_address[2].address}
-
-    return collect_info_dict
-'''''
-def print_info(dict_info):
-    for item in dict_info['info']:
-        if item == "system_info":
-            for elem in dict_info['info'][item]:
-                if elem == 'system':
-                    print(f"[+] Информация о системе\n"
-                          f"\t- Имя компьютера: {dict_info['info'][item][elem]['comp_name']}\n"
-                          f"\t- Опереционная система: {dict_info['info'][item][elem]['os_name']}\n"
-                          f"\t- Сборка: {dict_info['info'][item][elem]['version']}\n"
-                          f"\t- Архитектура: {dict_info['info'][item][elem]['machine']}\n")
-                if elem == 'processor':
-                    print(f"[+] Информация о процессоре\n"
-                          f"\t- Семейство: {dict_info['info'][item][elem]['name']}\n"
-                          f"\t- Физические ядра: {dict_info['info'][item][elem]['phisycal_core']}\n"
-                          f"\t- Всего ядер: {dict_info['info'][item][elem]['all_core']}\n"
-                          f"\t- Максимальная частота: {dict_info['info'][item][elem]['freq_max']}\n")
-                if elem == 'ram':
-                    print(f"[+] Оперативная память\n"
-                          f"\t- Объем: {dict_info['info'][item][elem]['volume']}\n"
-                          f"\t- Доступно: {dict_info['info'][item][elem]['aviable']}\n"
-                          f"\t- Используется: {dict_info['info'][item][elem]['used']}\n")
-        if item == "disk_info":
-            for elem in dict_info['info'][item]:
-                print(f"[+] Информация о дисках\n"
-                      f"\t- Имя диска: {elem}\n"
-                      f"\t- Файловая система: {dict_info['info'][item][elem]['file_system']}\n"
-                      f"\t- Объем диска: {dict_info['info'][item][elem]['size_total']}\n"
-                      f"\t- Занято: {dict_info['info'][item][elem]['size_used']}\n"
-                      f"\t- Свободно: {dict_info['info'][item][elem]['size_free']}\n"
-                      f"\t- Заполненность: {dict_info['info'][item][elem]['percent']}%\n")
-        if item == "net_info":
-            for elem in dict_info['info'][item]:
-                print(f"[+] Информация о сети\n"
-                      f"\t- Имя интерфейса: {elem}\n"
-                      f"\t- MAC-адрес: {dict_info['info'][item][elem]['mac']}\n"
-                      f"\t- IPv4: {dict_info['info'][item][elem]['ipv4']}\n"
-                      f"\t- IPv6: {dict_info['info'][item][elem]['ipv6']}\n")
-
-def main():
-    if uname().system == "Windows":
-        dict_info = creating_file()
-        with open(f'info_{uname().node}.json', 'w', encoding='utf-8') as file:
-            json.dump(dict_info, file, indent=4, ensure_ascii=False)
-        print_info(dict_info)
-    elif uname().system == "Linux":
-        dict_info = creating_file()
-        with open(f'info_{uname().node}.json', 'w', encoding='utf-8') as file:
-            json.dump(dict_info, file, indent=4, ensure_ascii=False)
-        print_info(dict_info)
-'''''
-
 def info_column():
     return (uname().node, f"{uname().system} {uname().release}", uname().version, uname().machine, uname().processor, psutil.cpu_count(logical=False),
          psutil.cpu_count(logical=True), f"{psutil.cpu_freq().max:.2f}Мгц", correct_size(psutil.virtual_memory().total), 
          correct_size(psutil.virtual_memory().available), correct_size(psutil.virtual_memory().used))
 
 def info_no_local(col):
-    temp = []
-    for i in range(1,col+1):
-        temp.append((i,i,i))
-    return temp
+    server  =  socket.socket()
+    hostname  = socket.gethostname()
+    port = 12345
+    server.connect((hostname, port))
+    # server.listen(5)
+    print("Server start")
+    # con, _ = server.accept() #Принимаем клиента
+    print("connection: ", server)
+    message = "OK"
+    server.send(message.encode())
+    data = server.recv(1024)
+    # con.close()
+    message = (data.decode())
+    # data = []
+    data = list(message.split(";"))
+    # for ms in message.split(";"):
+    #     data.append(ms)
+    print("Server ends")
+    server.close()
+    message = []
+    message.append(data)
+    return message
+    # temp = []
+    # for i in range(1,col+1):
+    #     temp.append((i,i,i))
 
+def open_info(mess="Файл успешно сохранен!"): 
+    showinfo(title="Информация", message=mess, default="ok")
+def open_warning(mess="Сообщение о предупреждении"): 
+    showwarning(title="Предупреждение", message=mess, default="ok")
+def open_error(mess="Сообщение об ошибке"): 
+    showerror(title="Ошибка", message=mess, default="ok")
 class Window(Tk):
     def __init__(self):
         super().__init__()
         # конфигурация окна
-        self.title("Новое окно")
+        self.title("Выбор формата")
         self.geometry("250x200")
         listbox = ("txt", "Exel", "CVS", "JSON")
         listbox_var = StringVar()
@@ -141,17 +66,16 @@ class Window(Tk):
         self.frame_c= ttk.Frame(self)
         self.combobox = ttk.Combobox(self.frame_c, textvariable=listbox_var, values=listbox, state="readonly")
         self.combobox.current(0)
-        self.combobox.pack(anchor="center")
-        self.label = ttk.Label(self.frame_c, textvariable=listbox_var).pack(anchor="center")
+        self.combobox.grid(row=0, column=0, columnspan=2, sticky=N)
+        # self.label = ttk.Label(self.frame_c, textvariable=listbox_var).pack(anchor="center")
         # определение кнопки
-        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(listbox, self.combobox.get())).pack(anchor="center")
-        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).pack(anchor="center")
+        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(listbox, self.combobox.get())).grid(row=1, column=0, sticky=N)
+        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).grid(row=1, column=1, sticky=N)
         self.frame_c.pack(anchor="center", expand=True)
         
     def button_clicked(self):
         self.destroy()
-    def inf(self):
-        showinfo(title="Информация", message="Файл успешно сохранен!", icon="info", default="ok")
+    
     def pet(self, listbox, listbox_v):
         global dan
         if (dan[0] == []):
@@ -159,26 +83,12 @@ class Window(Tk):
         match listbox_v.split():
             case ["txt"]:
                 print(listbox_v)
-                # c = 0
-                # ver = dan[0]
-                # c = len(ver[1])
-                # with open("otch.txt", "w", encoding="utf8") as file:
-                #     file.write("Number")
-                #     for v, *_ in dan:
-                #         file.write(("\t" + v))
-                #     file.write("\n")
-                #     for k in range(c):
-                #         file.write(str(k+1))
-                #         for number in dan:
-                #             number = number[1]
-                #             file.write("\t" + str(number[k]))
-                #         file.write("\n")
                 with open("otch.txt", "w", encoding="utf8") as file:
                     for v in dan:
                         for number in v:
                             file.write(str(number) + "\t")
                         file.write("\n")
-                self.inf()
+                open_info()
             case ["Exel"]:
                 print(listbox_v)
             case ["CVS"]:
@@ -196,13 +106,9 @@ def main():
             person = info_column()
             tree.insert("", END, values=person)
         person = info_no_local(len(tree['columns']))
-        c = 0
-        c = len(person[0])
-        for k in range(c):
-            ver = []
-            for number in person:
-                ver.append(number[k])
-            tree.insert("", END, values=ver)
+        print(person)
+        for k in person:
+            tree.insert("", END, values=k)
     def sort(col, reverse):
         # получаем все значения столбцов в виде отдельного списка
         l = [(tree.set(k, col), k) for k in tree.get_children("")]
@@ -219,38 +125,12 @@ def main():
     def sohranenie():
         global dan
         var = []
-        # colum = tree['columns']
-        # num_colums = len(colum)
-        # dan.append([tree['columns']])
-        # for i,v in enumerate(tree['columns']):
-        #     var = v, [(tree.set(k, i)) for k in tree.get_children("")]
-        #     # var = v, [(k, tree.set(k, i)) for k in tree.get_children("")]
-        #     # dan.append(v)
-        #     dan.append(var)
-        # IOXX = tree.get_children("")
-        
         dan.append(list(tree['columns']))
         for row in tree.get_children(""):
             var = [(tree.set(row, k)) for k in range(len(tree['columns']))]
             dan.append(var)
-        # dan = (list(tree['columns']), [[(tree.set(row, k)) for k in range(len(tree['columns']))] for row in tree.get_children("")])
-        print(dan)
+        # print(dan)
         window = Window()
-
-# c = 0
-# ver = dan[0]
-# c = len(ver[1])
-# with open("otch.txt", "w", encoding="utf8") as file:
-#     file.write("Number")
-#     for v, *_ in dan:
-#         file.write(("\t" + v))
-#     file.write("\n")
-#     for k in range(c):
-#         file.write(str(k+1))
-#         for number in dan:
-#             number = number[1]
-#             file.write("\t" + str(number[k]))
-#         file.write("\n")
 
     window = Tk()
     window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
@@ -262,14 +142,8 @@ def main():
     frame = ttk.Frame(borderwidth=1, relief=SOLID)
     button_1 = ttk.Button(frame, text="Получить сведения", command=zapol).grid(row=0, column=0)
     button_2 = ttk.Button(frame, text="Составить отчет", command=sohranenie).grid(row=0, column=1)
-    local_button = ttk.Checkbutton(frame, text="Показывать локальный компьютер", variable=dofamin).grid(row=1, column=0)
-    frame.grid(row=0, column=0, sticky=EW)   
-    # определяем данные для отображения
-    people = [
-        ("Tom", 38, "tom@email.com"), ("Bob", 42, "bob@email.com"), ("Sam", 28, "sam@email.com"),
-        ("Alice", 33, "alice@email.com"), ("Kate", 21, "kate@email.com"), ("Ann", 24, "ann@email.com"),
-        ("Mike", 34, "mike@email.com"), ("Alex", 52, "alex@email.com"), ("Jess", 28, "jess@email.com"),
-        ]
+    local_button = ttk.Checkbutton(frame, text="Показывать локальный компьютер", variable=dofamin).grid(row=1, column=0, columnspan=2)
+    frame.grid(row=0, column=0, sticky=EW)
     # определяем столбцы
     columns = ("comp_name", "os_name", "version", "machine", "processor_name", "processor_phisycal_core", "processor_all_core", 
                "processor_freq_max","raw_volume", "raw_aviable", "raw_used")
