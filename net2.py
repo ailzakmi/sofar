@@ -7,17 +7,26 @@ import scapy.all as sc
 
 
 # получаем локальный IP-адрес
+# def local_ipv4():
+#     st = socket(AF_INET, SOCK_DGRAM)
+#     try:
+#         st.connect(('10.255.255.255', 1))
+#         ip_l = st.getsockname()[0]
+#     except Exception:
+#         ip_l = '127.0.0.1'
+#     finally:
+#         st.close()
+#     return ip_l
 def local_ipv4():
-    st = socket(AF_INET, SOCK_DGRAM)
     try:
-        st.connect(('10.255.255.255', 1))
-        ip_l = st.getsockname()[0]
+        hostname = socket.gethostname()
+        ip_l = socket.gethostbyname(hostname)
     except Exception:
         ip_l = '127.0.0.1'
     finally:
-        st.close()
+        # st.close()
+        pass
     return ip_l
-
 
 def get_gateway_win():
     # получаем адрес шлюза по умолчанию для текущего сетевого интерфейса в Windows
