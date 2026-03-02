@@ -32,7 +32,7 @@ def serv(it):
             if data.decode() == "OK":
                 con.send(str(message).encode())
             # data = client.recv(1024)
-            print("Server  sent: ", data.decode())
+            print("Sent: ", data.decode())
     # print(it)
     if not it:
         # exit_thread(mms)
@@ -53,9 +53,6 @@ def serv(it):
     if it:
         start_new_thread(client_thread, (message, ))
         # print(mms)
-    
-    
-    
 
 def button_clicked(self):
     # _thread.exit_prog()
