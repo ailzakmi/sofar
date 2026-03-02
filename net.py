@@ -1,7 +1,5 @@
 import socket
-import asyncio
-import aiohttp
-import logging
+import threading
 from scapy.all import ARP, Ether, srp
 
 def prod():
@@ -44,41 +42,69 @@ while True:
         else:
             exit()
 
-async def fetch(session, url):
+# async def fetch(session, url):
+#     try:
+#         async with session.get(url, timeout=10) as response:
+#             return {"url": url, "status": response.status}
+#     except Exception as e:
+#         return {"url": url, "error": str(e)}
+
+# s = Lock()
+
+def server_thread(dev):
+    # s.locked()
     try:
-        async with session.get(url, timeout=10) as response:
-            return {"url": url, "status": response.status}
-    except Exception as e:
-        return {"url": url, "error": str(e)}
-
-async def server_thread(dev):
-    # connector = 
-    pass
-    # try:
-    #     # print(dev, port)
-    #     server.connect((dev, port))
-    #     print("Server connection: ", server)
-    #     message = "OK"
-    #     server.send(message.encode())
-    #     data = server.recv(1024)
-    #     message = (data.decode())
-    #     data = list(message.split(";"))
-    #     server.close()
-    #     pull.append(data)
-    # except:
-    #     print("Server no connect: ",dev, " ", server)
+        # print(dev, port)
+        server.connect((dev, port))
+        print("Server connection: ", server)
+        message = "OK"
+        server.send(message.encode())
+        data = server.recv(1024)
+        message = (data.decode())
+        data = list(message.split(";"))
+        server.close()
+        pull.append(data)
+    except:
+        print("Server no connect: ",dev, " ", server)
         # continue
-    # return data
+    # s.acquire()
+    return data
 
+class ThreadSafeCounter:
+    def __init__(self):
+        self.val = 0
+        self.lock = threading.Lock()
 
+    def change(self):
+        with self.lock:
+            self.val += 1
+
+# each thread change state x times
+def work(state, operationsCount):
+  for _ in range(operationsCount):
+      state.change()
+
+def run_threads(state, threadsCount, operationsPerThreadCount):
+    threads = []
+    for _ in range(threadsCount):
+        t = threading.Thread(target=work, args=(state, operationsPerThreadCount))
+        t.start()
+        threads.append(t)
+    for t in threads:
+        t.join()
 
 print("-" * 50)
 server = socket.socket()
 port = 12345
 pull = []
-
-
-for device in devices:
-    pull.append(asyncio.run(server_thread(device['ip'])))
-    
+# if __name__ == "__main__":
+threadsCount = 10
+operationsPerThreadCount = 100000
+counter = ThreadSafeCounter()
+# for counter in counters:
+run_threads(counter, threadsCount, operationsPerThreadCount)
+print(f"{counter.__class__.__name__}: expected val: {threadsCount*operationsPerThreadCount}, actual val: {counter.val}")
+# for device in devices:
+#     pull.append(Thread(target=server_thread,  args=(device['ip'],  )))
+        
 print(pull)
