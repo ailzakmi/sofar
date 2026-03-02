@@ -1,0 +1,2 @@
+comp_name	os_name	version	machine	processor_name	processor_phisycal_core	processor_all_core	processor_freq_max	raw_volume	raw_aviable	raw_used	
+32GIGA	Windows 11	10.0.26100	AMD64	AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD	6	12	3501.00Мгц	31.93GiB	16.38GiB	15.54GiB	
