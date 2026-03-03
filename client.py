@@ -1,11 +1,9 @@
 import socket
 import psutil
 import tkinter as tk
-from tkinter import *
-from tkinter import messagebox
 from tkinter import ttk
 from platform import uname
-from _thread import *
+from _thread import start_new_thread
 
 # global dofamin
 
@@ -20,20 +18,14 @@ def info_column():
          psutil.cpu_count(logical=True), f"{psutil.cpu_freq().max:.2f}Мгц", correct_size(psutil.virtual_memory().total), 
          correct_size(psutil.virtual_memory().available), correct_size(psutil.virtual_memory().used))
 
-def serv(it):
-    def client_thread(message):
-        # get_ident()
-        # print(get_ident())
+def serv(it:bool):
+    def client_thread(message:str):
         while True:
             con, _ = client.accept()
             data = con.recv(1024)
-            # print(data.decode())
-            # print(message)
             if data.decode() == "OK":
-                con.send(str(message).encode())
-            # data = client.recv(1024)
-            print("Sent: ", data.decode())
-    # print(it)
+                con.send(message.encode())
+            # print("Sent: ", data.decode())
     if not it:
         # exit_thread(mms)
         client.close()
@@ -47,26 +39,21 @@ def serv(it):
     for ms in info_column():
         message = message + str(ms) + ";"
     message = message[0:-1]
-    # message = str(info_column())
-    print("Server start")
+    # print("Server start")
     
     if it:
         start_new_thread(client_thread, (message, ))
-        # print(mms)
 
 def button_clicked(self):
-    # _thread.exit_prog()
     self.destroy()
 
 def main():
-    window = Tk()
+    window = tk.Tk()
     window.title("Client")
     window.geometry('250x200')
     frame = ttk.Frame()
-    button_n = ttk.Button(frame, text="Начать", command=lambda: serv(True)).grid(row=0, column=0, sticky=NSEW)
-    # button_z = ttk.Button(frame, text="Закрыть", command=lambda: serv(False)).grid(row=0, column=1, sticky=NSEW)
-    # button_n = ttk.Button(frame, text="Начать", command=start_new_thread(serv, (True, ))).grid(row=0, column=0, sticky=NSEW)
-    button_z = ttk.Button(frame, text="Закрыть", command=lambda: button_clicked(window)).grid(row=0, column=1, sticky=NSEW)
+    button_n = ttk.Button(frame, text="Начать", command=lambda: serv(True)).grid(row=0, column=0, sticky=tk.NSEW)
+    button_z = ttk.Button(frame, text="Закрыть", command=lambda: button_clicked(window)).grid(row=0, column=1, sticky=tk.NSEW)
     frame.pack(expand=1)
     window.mainloop()
 

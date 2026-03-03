@@ -26,11 +26,13 @@ class ThreadSafeCounter:
 # each thread change state x times
 def work(state, operationsCount):
   for _ in range(operationsCount):
+      print("b", end="")
       state.change()
 
 def run_threads(state, threadsCount, operationsPerThreadCount):
   threads = []
   for _ in range(threadsCount):
+    print("a")
     t = threading.Thread(target=work, args=(state, operationsPerThreadCount))
     t.start()
     threads.append(t)
@@ -40,10 +42,11 @@ def run_threads(state, threadsCount, operationsPerThreadCount):
   
 if __name__ == "__main__":  
   threadsCount = 10
-  operationsPerThreadCount = 100000
+  operationsPerThreadCount = 100
   expectedCounterValue = threadsCount * operationsPerThreadCount
   
   counters = [Counter(), CounterWithConversion(), ThreadSafeCounter()]
-  for counter in counters:
-    run_threads(counter, threadsCount, operationsPerThreadCount)
-    print(f"{counter.__class__.__name__}: expected val: {expectedCounterValue}, actual val: {counter.val}")
+  counter = ThreadSafeCounter()
+  # for counter in counters:
+  run_threads(counter, threadsCount, operationsPerThreadCount)
+  print(f"{counter.__class__.__name__}: expected val: {expectedCounterValue}, actual val: {counter.val}")
