@@ -1,8 +1,9 @@
 import psutil
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import *
+from tkinter.messagebox import showinfo, showwarning, showerror
 from platform import uname
+from typing import List
 
 import net
 import sohranenie
@@ -58,12 +59,14 @@ def main():
         ochistka()
         if dofamin.get() == 1:
             person = info_column()
-            tree.insert("", END, values=person)
+            tree.insert("", tk.END, values=person)
         # person = info_no_local()
         person = net.main()
-        print(person)
-        for k in person:
-            tree.insert("", END, values=k)
+        if person == []:
+            open_error("Не найдены компьютеры в текущей сети!")
+        else:
+            for k in person:
+                tree.insert("", tk.END, values=k)
     def sort(col, reverse):
         # получаем все значения столбцов в виде отдельного списка
         l = [(tree.set(k, col), k) for k in tree.get_children("")]
@@ -85,23 +88,23 @@ def main():
             dan.append(var)
         window = sohranenie.Window(dan)
 
-    window = Tk()
+    window = tk.Tk()
     window.title("Разработка программного обеспечения для аудита аппаратной и программной конфигурации ПК")
     window.geometry('715x400')
     window.rowconfigure(index=1, weight=1)
     window.columnconfigure(index=0, weight=1)
-    dofamin = IntVar()
+    dofamin = tk.IntVar()
     # position = {"padx":6, "pady":6, "anchor":NW}
-    frame = ttk.Frame(borderwidth=1, relief=SOLID)
+    frame = ttk.Frame(borderwidth=1, relief=tk.SOLID)
     button_1 = ttk.Button(frame, text="Получить сведения", command=zapol).grid(row=0, column=0)
     button_2 = ttk.Button(frame, text="Составить отчет", command=sohranen).grid(row=0, column=1)
     local_button = ttk.Checkbutton(frame, text="Показывать локальный компьютер", variable=dofamin).grid(row=1, column=0, columnspan=2)
-    frame.grid(row=0, column=0, sticky=EW)
+    frame.grid(row=0, column=0, sticky=tk.EW)
     # определяем столбцы
     columns = ("comp_name", "os_name", "version", "machine", "processor_name", "processor_phisycal_core", "processor_all_core", 
                "processor_freq_max","raw_volume", "raw_aviable", "raw_used")
 
-    frame_m = ttk.Frame(borderwidth=1, relief=SOLID)
+    frame_m = ttk.Frame(borderwidth=1, relief=tk.SOLID)
     frame_m.rowconfigure(index=0, weight=1)
     frame_m.columnconfigure(index=0, weight=1)
 
@@ -109,20 +112,20 @@ def main():
     tree.grid(row=0, column=0, sticky="nsew")
     # определяем заголовки
     for head in columns:
-        tree.heading(head, text=f"{head}", anchor=W, command=lambda: sort(0, False))
+        tree.heading(head, text=f"{head}", anchor=tk.W, command=lambda: sort(0, False))
     # tree.heading("age", text="Возраст", anchor=W)
     # добавляем данные
     for head, v in enumerate(columns, start=1):
-        tree.column(f"#{head}", stretch=NO, width=len(v)*10)
+        tree.column(f"#{head}", stretch=tk.NO, width=len(v)*10)
     
     # добавляем горизонтальную прокрутку
-    scrollbar = ttk.Scrollbar(frame_m,orient=HORIZONTAL, command=tree.xview)
-    tree.configure(xscroll=scrollbar.set)
-    scrollbar.grid(row=1, column=0, sticky="ew")
+    scrollbarx = ttk.Scrollbar(frame_m,orient=tk.HORIZONTAL, command=tree.xview)
+    tree["xscrollcommand"]=scrollbarx.set
+    scrollbarx.grid(row=1, column=0, sticky="ew")
     # добавляем вертикальную прокрутку
-    scrollbar = ttk.Scrollbar(frame_m,orient=VERTICAL, command=tree.yview)
-    tree.configure(yscroll=scrollbar.set)
-    scrollbar.grid(row=0, column=1, sticky="ns")
+    scrollbary = ttk.Scrollbar(frame_m,orient=tk.VERTICAL, command=tree.yview)
+    tree["yscrollcommand"]=scrollbary.set
+    scrollbary.grid(row=0, column=1, sticky="ns")
 
     frame_m.grid(row=1, column=0, sticky="nsew")
     window.mainloop()

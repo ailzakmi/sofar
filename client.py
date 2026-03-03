@@ -28,7 +28,7 @@ def serv(it:bool):
             # print("Sent: ", data.decode())
     if not it:
         # exit_thread(mms)
-        client.close()
+        # client.close()
         print("Server stop")
     client  = socket.socket()
     hostname = socket.gethostname()

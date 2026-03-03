@@ -1,11 +1,11 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk, messagebox
 from typing import List
 
 def open_info(mess="Файл успешно сохранен!"): 
     messagebox.showinfo(title="Информация", message=mess, default="ok")
 
-class Window(Tk):
+class Window(tk.Tk):
     def __init__(self, dan:List):
         self.__dan = dan
         super().__init__()
@@ -13,16 +13,16 @@ class Window(Tk):
         self.title("Выбор формата")
         self.geometry("250x200")
         listbox = ("txt", "Exel", "CVS", "JSON")
-        listbox_var = StringVar()
+        listbox_var = tk.StringVar()
         # print(listbox_var.get())
         self.frame_c= ttk.Frame(self)
         self.combobox = ttk.Combobox(self.frame_c, textvariable=listbox_var, values=listbox, state="readonly")
         self.combobox.current(0)
-        self.combobox.grid(row=0, column=0, columnspan=2, sticky=N)
+        self.combobox.grid(row=0, column=0, columnspan=2, sticky=tk.N)
         # self.label = ttk.Label(self.frame_c, textvariable=listbox_var).pack(anchor="center")
         # определение кнопки
-        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(self.combobox.get())).grid(row=1, column=0, sticky=N)
-        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).grid(row=1, column=1, sticky=N)
+        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(self.combobox.get())).grid(row=1, column=0, sticky=tk.N)
+        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).grid(row=1, column=1, sticky=tk.N)
         self.frame_c.pack(anchor="center", expand=True)
         
     def button_clicked(self):

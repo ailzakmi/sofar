@@ -1,9 +1,9 @@
 import socket
 from time import time
-from scapy.all import ARP, Ether, srp
+from scapy.all import srp
+from scapy.layers.l2 import ARP, Ether
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List, Dict, Any
-from tkinter import messagebox
+from typing import List
 
 def dev_null(console:bool): 
     def print_z(*str):
@@ -78,7 +78,7 @@ def server_thread(dev: str):
 
     return result
 
-def request_logging(urls: List[str]) -> List[Dict[str, Any]]:
+def request_logging(urls: List[str]) -> List[List[str]]:
     """
     Многопоточный опрос списка URL с ограничением числа потоков.
     Возвращает список результатов.
