@@ -2,8 +2,14 @@ import socket
 from time import time
 from scapy.all import srp
 from scapy.layers.l2 import ARP, Ether
+from tkinter.messagebox import showerror
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
+
+def open_error(mess="Сообщение об ошибке", *, error=None): 
+    if error != None:
+        mess = error
+    showerror(title="Ошибка", message=mess, default="ok")
 
 def dev_null(console:bool): 
     def print_z(*str):
@@ -14,16 +20,16 @@ def dev_null(console:bool):
     else:
         return print
 
-# Таймауты
-# REQUEST_TIMEOUT = 10
-# MAX_WORKERS = 10  # Максимум 10 параллельных запросов
 def target_device(target_ip):
-    result = srp(Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst=target_ip), timeout=3, verbose=False)[0]
     devices = []
-    for _, received in result:
-        if received.psrc == socket.gethostbyname(socket.gethostname()):
-            continue
-        devices.append({'ip': received.psrc,'mac': received.hwsrc})
+    try:
+        result = srp(Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst=target_ip), timeout=3, verbose=False)[0]
+        for _, received in result:
+            if received.psrc == socket.gethostbyname(socket.gethostname()):
+                continue
+            devices.append({'ip': received.psrc,'mac': received.hwsrc})
+    except Exception as e:
+        open_error(error=e)
     return devices
 
 # Укажите ваш диапазон сети (например, 192.168.1.0/24)

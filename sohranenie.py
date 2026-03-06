@@ -29,22 +29,19 @@ class Window(tk.Tk):
         self.destroy()
     
     def pet(self, listbox_v):
-        if (self.__dan[0] == []):
-            print("Пусто")
-        match listbox_v.split():
-            case ["txt"]:
-                print(listbox_v)
-                with open("otch.txt", "w", encoding="utf8") as file:
-                    for v in self.__dan:
-                        for number in v:
-                            file.write(str(number) + "\t")
-                        file.write("\n")
-                open_info()
-            case ["Exel"]:
-                print(listbox_v)
-            case ["CVS"]:
-                print(listbox_v)
-            case ["JSON"]:
-                print(listbox_v)
-            case _:
-                print(f"#{listbox_v}")
+        if listbox_v == "txt":
+            print(listbox_v)
+            with open("otch.txt", "w", encoding="utf8") as file:
+                for v in self.__dan:
+                    for number in v:
+                        file.write(str(number) + "\t")
+                    file.write("\n")
+            open_info()
+        elif listbox_v == "Exel":
+            print(listbox_v)
+        elif listbox_v == "CVS":
+            print(listbox_v)
+        elif listbox_v == "JSON":
+            print(listbox_v)
+        else:
+            print(f"#{listbox_v}")
