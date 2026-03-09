@@ -1,2 +1,1 @@
 comp_name	os_name	version	machine	processor_name	processor_phisycal_core	processor_all_core	processor_freq_max	raw_volume	raw_aviable	raw_used	
-WS0750090000968	Windows 10	10.0.19045	AMD64	Intel64 Family 6 Model 94 Stepping 3, GenuineIntel	2	2	3300.00Мгц	7.89GiB	3.12GiB	4.77GiB	
