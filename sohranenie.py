@@ -21,8 +21,8 @@ class Window(tk.Tk):
         self.combobox.grid(row=0, column=0, columnspan=2, sticky=tk.N)
         # self.label = ttk.Label(self.frame_c, textvariable=listbox_var).pack(anchor="center")
         # определение кнопки
-        self.button2 = ttk.Button(self.frame_c, text="Печать", command=lambda: self.pet(self.combobox.get())).grid(row=1, column=0, sticky=tk.N)
-        self.button = ttk.Button(self.frame_c, text="закрыть", command=self.button_clicked).grid(row=1, column=1, sticky=tk.N)
+        self.button2 = ttk.Button(self.frame_c, text="Сохранить", command=lambda: self.pet(self.combobox.get())).grid(row=1, column=0, sticky=tk.N)
+        self.button = ttk.Button(self.frame_c, text="Закрыть", command=self.button_clicked).grid(row=1, column=1, sticky=tk.N)
         self.frame_c.pack(anchor="center", expand=True)
         
     def button_clicked(self):

@@ -5,8 +5,6 @@ from tkinter import ttk
 from platform import uname
 from _thread import start_new_thread
 
-# global dofamin
-
 def correct_size(bts, ending='iB'):
     size = 1024
     for item in ["", "K", "M", "G", "T", "P"]:
@@ -25,11 +23,6 @@ def serv(it:bool):
             data = con.recv(1024)
             if data.decode() == "OK":
                 con.send(message.encode())
-            # print("Sent: ", data.decode())
-    if not it:
-        # exit_thread(mms)
-        # client.close()
-        print("Server stop")
     client  = socket.socket()
     hostname = socket.gethostname()
     port = 12345
@@ -39,8 +32,6 @@ def serv(it:bool):
     for ms in info_column():
         message = message + str(ms) + ";"
     message = message[0:-1]
-    # print("Server start")
-    
     if it:
         start_new_thread(client_thread, (message, ))
 
