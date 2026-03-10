@@ -1,5 +1,4 @@
 import socket
-from time import time
 from scapy.all import srp
 from scapy.layers.l2 import ARP, Ether
 from tkinter.messagebox import showerror
@@ -10,15 +9,6 @@ def open_error(mess="Сообщение об ошибке", *, error=None):
     if error != None:
         mess = error
     showerror(title="Ошибка", message=mess, default="ok")
-
-def dev_null(console:bool): 
-    def print_z(*str):
-        pass
-
-    if console:
-        return print_z
-    else:
-        return print
 
 def target_device(target_ip):
     devices = []
@@ -33,35 +23,13 @@ def target_device(target_ip):
     return devices
 
 # Укажите ваш диапазон сети (например, 192.168.1.0/24)
-def get_local_ip(console:bool):
-    while True:
-        if console:
-            addr = ""
-        else:
-            addr = input("Укажите режим all[1/Все]/one[2/Один]/exit[0/e/Выход] (По умолчанию all): ")
-        if addr == "exit" or addr == "0" or addr == "e" or addr == "Выход":
-            exit()
-        elif addr == "" or addr == "all" or addr == "1":
-            hostname = socket.gethostname()
-            if hostname:
-                target_ip = socket.gethostbyname(hostname) + "/24"
-            else:
-                target_ip = "127.0.0.1/24"
-            return target_device(target_ip)
-        elif addr == "one" or addr == "2":
-            target_ip = input("Укажите конкретный адрес: ")
-            return target_device(target_ip)
-        else:
-            print("Непонятная команда: ", addr)
-            bobl = True
-            while bobl:
-                addr = input("Продолжить? yes[1]/no[0]: ")
-                if addr == "yes" or addr == "1":
-                    bobl = False
-                elif addr == "no" or addr == "0":
-                    exit()
-                else:
-                    print("Можно больше не ошибаться?")
+def get_local_ip():
+    hostname = socket.gethostname()
+    if hostname:
+        target_ip = socket.gethostbyname(hostname) + "/24"
+    else:
+        target_ip = "127.0.0.1/24"
+    return target_device(target_ip)
 
 def server_thread(dev: str):
     server = socket.socket()
@@ -70,15 +38,14 @@ def server_thread(dev: str):
     result = []
     try:
         server.connect((dev, port))
-        print("Успешно: ",dev)
         message = "OK"
         server.send(message.encode())
         data = server.recv(1024)
         result = list(data.decode().split(";"))
     except socket.timeout:
-        print(f"Ошибка соединения: {dev}, таймаут!")
+        pass
     except socket.error as e:
-        print(f"Ошибка соединения: {dev}, {e}")
+        pass
     finally:
         server.close()
 
@@ -102,25 +69,17 @@ def request_logging(urls: List[str]) -> List[List[str]]:
                 results.append(result)
     return results
 
-def main(console:bool=True, timeout:int=10, max:int=10):
-    global REQUEST_TIMEOUT, MAX_WORKERS, print
+def main(timeout:int=10, max:int=10):
+    global REQUEST_TIMEOUT, MAX_WORKERS
     REQUEST_TIMEOUT = timeout   # Таймауты
     MAX_WORKERS = max           # Максимум параллельных запросов
     device = []
-    print = dev_null(console)
-    devices = get_local_ip(console)    
+    devices = get_local_ip()    
     for dev in devices:
         device.append(dev['ip'])
-    print("-" * 50)
-    print(f"Запуск опроса {len(device)} клиентов с макс. {MAX_WORKERS} потоками...\n")
-
-    start = time()
+    
     results = request_logging(device)
-    duration = time() - start
-
-    print(f"\nГотово за {duration:.2f} секунд")
-    # print(f"Результат:\n{results}")
     return results
 
 if __name__ == "__main__":
-    print(f"Результат:\n{main(console=False)}")
+    print(f"Результат:\n{main()}")

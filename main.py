@@ -32,7 +32,6 @@ def main():
         if dofamin.get() == 1:
             person = info_column()
             tree.insert("", tk.END, values=person)
-        # person = info_no_local()
         person = net.main()
         if person == []:
             open_error("Не найдены компьютеры в текущей сети!")
