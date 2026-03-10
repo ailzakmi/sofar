@@ -22,7 +22,6 @@ def target_device(target_ip):
         open_error(error=e)
     return devices
 
-# Укажите ваш диапазон сети (например, 192.168.1.0/24)
 def get_local_ip():
     hostname = socket.gethostname()
     if hostname:
